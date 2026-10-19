@@ -1,0 +1,52 @@
+name: İndirimleri güncelle
+
+on:
+  schedule:
+    # Türkiye saatiyle 06:00 ve 14:00 (GitHub saatleri UTC'dir)
+    - cron: "0 3,11 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["site/**", "!site/veri/**"]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: guncelle
+  cancel-in-progress: false
+
+jobs:
+  guncelle:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.yayin.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: İndirimleri topla
+        if: github.event_name != 'push'
+        run: python toplayici/calistir.py
+
+      - name: Veriyi depoya kaydet
+        if: github.event_name != 'push'
+        run: |
+          git config user.name "indirim-botu"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add site/veri/indirimler.json
+          git diff --cached --quiet || git commit -m "Veri güncellendi"
+          git push
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: yayin
+        uses: actions/deploy-pages@v4

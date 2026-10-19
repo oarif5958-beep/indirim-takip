@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>İndirim Takip</title>
+  <meta name="description" content="BİM, A101 ve Migros indirimleri tek yerde">
+  <meta name="theme-color" content="#14532d">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="ikon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="ikon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="İndirimler">
+  <link rel="stylesheet" href="stil.css">
+</head>
+<body>
+  <header class="ust">
+    <div class="ust-satir">
+      <h1>İndirim Takip</h1>
+      <span id="guncelleme" class="guncelleme"></span>
+    </div>
+    <div class="arama-kutu">
+      <input id="arama" type="search" placeholder="Ürün ara: yağ, çay, deterjan…" autocomplete="off" enterkeyhint="search">
+      <button id="arama-temizle" class="arama-temizle" aria-label="Aramayı temizle" hidden>✕</button>
+    </div>
+    <nav class="sekmeler" role="tablist">
+      <button class="sekme secili" data-sekme="hepsi" role="tab">Tüm İndirimler</button>
+      <button class="sekme" data-sekme="takip" role="tab">Takibim <span id="takip-sayi" class="rozet" hidden></span></button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="hepsi-bolum">
+      <div class="marketler" id="marketler"></div>
+      <div class="filtreler">
+        <select id="kategori" aria-label="Kategori"><option value="">Tüm kategoriler</option></select>
+        <select id="sirala" aria-label="Sıralama">
+          <option value="yuzde">En çok indirim</option>
+          <option value="ucuz">En ucuz</option>
+          <option value="yeni">Yeni başlayanlar</option>
+        </select>
+      </div>
+      <p id="sonuc-sayi" class="sonuc-sayi"></p>
+      <ul id="liste" class="liste"></ul>
+      <div id="daha" class="daha"></div>
+    </section>
+
+    <section id="takip-bolum" hidden>
+      <form id="takip-form" class="takip-form">
+        <input id="takip-kelime" type="text" placeholder="Takip edilecek ürün: ayçiçek yağı" autocomplete="off" enterkeyhint="done">
+        <button type="submit">Ekle</button>
+      </form>
+      <p class="ipucu">Yazdığın ürün herhangi bir markette indirime girince burada görünür.</p>
+      <div id="takip-liste"></div>
+    </section>
+  </main>
+
+  <template id="kart-sablon">
+    <li class="kart">
+      <a class="kart-link" target="_blank" rel="noopener">
+        <img class="kart-gorsel" loading="lazy" alt="">
+        <div class="kart-bilgi">
+          <div class="kart-ust">
+            <span class="market-etiket"></span>
+            <span class="tarih"></span>
+          </div>
+          <h3 class="kart-ad"></h3>
+          <p class="kart-alt"></p>
+          <div class="kart-fiyat">
+            <span class="fiyat"></span>
+            <span class="eski-fiyat"></span>
+            <span class="yuzde"></span>
+          </div>
+          <p class="kampanya"></p>
+        </div>
+      </a>
+    </li>
+  </template>
+
+  <script src="uygulama.js"></script>
+</body>
+</html>
